@@ -1,12 +1,13 @@
-#include <Windows.h>
 #include <Geode/Geode.hpp>
+#include <Windows.h>
+#include "listener.hpp"
 
 using namespace geode::prelude;
 
 WNDPROC g_originalWndProc = nullptr;
+bool g_mouseScrolled = false;
 bool g_hooked = false;
 bool g_hookAttempted = false;
-bool g_mouseScrolled = false;
 
 LRESULT CALLBACK customWndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
     if (uMsg == WM_MOUSEWHEEL)

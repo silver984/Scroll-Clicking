@@ -1,4 +1,8 @@
 # Scroll Clicking
-This mod allows you to scroll click using your mouse's scroll wheel.
+This mod allows you to scroll click using your mouse's scroll wheel. This also currently only works on <cb>Windows.</c> 
 
-This currently only works on <cb>Windows.</c> Any porting contribution to other platforms is very welcome! Check out the <co>GitHub</c> repository if you'd like to contribute to this project.
+<cr>This may or may not be cheating!</c> Make sure to check out this mod's settings for customization
+
+&nbsp;
+
+**Credits to <cg>HexCodesGMD</c> for the idea.**

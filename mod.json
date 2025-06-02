@@ -5,8 +5,11 @@
 	},
 	"id": "silverstar.scroll_clicking",
 	"name": "Scroll Clicking",
-	"version": "v1.0.0-beta.2",
-	"developer": "SILVERSTAR",
+	"version": "v1.0.0",
+	"developers": [
+		"SILVERSTAR",
+		"HexCodesGMD"
+	],
 	"description": "",
 	"links": {
 		"source": "https://github.com/silver984/Scroll-Clicking"
@@ -17,9 +20,13 @@
 	],
 	"settings": {
 		"switch": {
-			"name": "Turn mod ON or OFF",
+			"name": "Turn Scroll Clicking ON",
 			"type": "bool",
 			"default": true
+		},
+		"title1": {
+			"type": "title",
+			"name": "Scroll Settings"
 		},
 		"clickInterval": {
 			"type": "int",
@@ -33,7 +40,13 @@
 			},
 			"enable-if": "switch"
 		},
-		"title1": {
+		"istrue": {
+			"name": "True Scroll",
+			"type": "bool",
+			"default": false,
+			"description": "Experimental. May or may not be accurate."
+		},
+		"title2": {
 			"type": "title",
 			"name": "Dual Settings"
 		},
