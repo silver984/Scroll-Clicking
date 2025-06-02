@@ -5,7 +5,7 @@
 	},
 	"id": "silverstar.scroll_clicking",
 	"name": "Scroll Clicking",
-	"version": "v1.0.0-beta.1",
+	"version": "v1.0.0-beta.2",
 	"developer": "SILVERSTAR",
 	"description": "",
 	"links": {
@@ -26,7 +26,7 @@
 			"name": "Interval",
 			"default": 8,
 			"min": 1,
-			"max": 10,
+			"max": 20,
 			"control": {
 				"slider": false,
 				"arrows": false
