@@ -1,0 +1,58 @@
+{
+	"geode": "4.4.0",
+	"gd": {
+		"win": "2.2074",
+		"android": "2.2074",
+		"mac": "2.2074",
+		"ios": "2.2074"
+	},
+	"id": "silverstar.scroll_clicking",
+	"name": "Scroll Clicking",
+	"version": "v1.0.0-beta.1",
+	"developer": "SILVERSTAR",
+	"description": "",
+	"links": {
+		"source": "https://github.com/silver984/Scroll-Clicking"
+	},
+	"tags": [
+		"offline",
+		"gameplay"
+	],
+	"settings": {
+		"switch": {
+			"name": "Turn mod ON or OFF",
+			"type": "bool",
+			"default": true
+		},
+		"clickInterval": {
+			"type": "int",
+			"name": "Interval",
+			"default": 8,
+			"min": 1,
+			"max": 10,
+			"control": {
+				"slider": false,
+				"arrows": false
+			},
+			"enable-if": "switch"
+		},
+		"title1": {
+			"type": "title",
+			"name": "Dual Settings"
+		},
+		"p1": {
+			"name": "Player 1",
+			"type": "bool",
+			"description": "Scroll click for player 1.",
+			"enable-if": "switch",
+			"default": true
+		},
+		"p2": {
+			"name": "Player 2",
+			"type": "bool",
+			"description": "Scroll click for player 2.",
+			"enable-if": "switch",
+			"default": true
+		}
+	}
+}
