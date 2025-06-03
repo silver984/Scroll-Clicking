@@ -8,15 +8,15 @@ This mod was created for the intention of beating hard spam levels. While it may
 
 - **Click Interval** - Controls how many frames to wait between simulated clicks. The lower the value, the faster.
 - **True Scroll** - Simulate true scrolling instead of an autoclicker. Experimental feature and may or may not be accurate. Off by default.
-- **Player 1 .. 2** - Whether this mod works for the chosen player when dual mode is activated. On for each by default.
+- **Player 1 & 2** - Whether this mod works for the chosen player when dual mode is activated. On for each by default.
+- **Key for Player 1 & 2** - Mapped keybind for Player 1 and 2. Make sure to customize this in the settings if needed.
 
 ## Incompatible Mods
 
 - [Click Between Frames](https://geode-sdk.org/mods/syzzi.click_between_frames) `syzzi.click_between_frames` - Incompatible as the Scroll Clicking mechanism doesn't function when this mod is active. The exact cause is unknown but likely due to input conflict.
 - [Click After Frames](https://geode-sdk.org/mods/alphalaneous.click_after_frames) `alphalaneous.click_after_frames` - Incompatible as it delays Scroll Clicks.
 
-
 ## Credits
 
-- Idea made by HexCodesGMD
+- Idea made by [HexCodesGMD](https://discord.com/users/1222327935315218506)
 - Developed by [SILVERSTAR](https://github.com/silver984) -> [Ko-fi](https://ko-fi.com/silverstar_)

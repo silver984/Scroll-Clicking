@@ -21,16 +21,17 @@ class $modify(GJBaseGameLayer) {
 
         hookWndProc(); // hook into window procedure
 
-        cachedInterval = Mod::get()->getSettingValue<int>("clickInterval");
+        interval = Mod::get()->getSettingValue<int>("clickInterval") + 1;
         isTrueScroll = Mod::get()->getSettingValue<bool>("istrue");
         p1 = Mod::get()->getSettingValue<bool>("p1");
         p2 = Mod::get()->getSettingValue<bool>("p2");
+        keyStrP1 = Mod::get()->getSettingValue<std::string>("key-p1");
+        keyStrP2 = Mod::get()->getSettingValue<std::string>("key-p2");
 
         isGateOpen = false;
         isClicking = false;
         isConflicted = false;
 
-        interval = cachedInterval + 1;
         intervalFrames = 0;
         scrollPasses = 0;
         frames = 0;

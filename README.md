@@ -1,6 +1,6 @@
 # ScrollClicking
 
-**Scroll Clicking** is a Geometry Dash mod that enables players to use their mouse's scroll wheel as an input method for clicking. 
+This mod allows you to scroll click using your mouse's scroll wheel
 
 > This mod currently only supports **Windows**.
 
@@ -12,7 +12,8 @@ This mod was created for the intention of beating hard spam levels. While it may
 
 - **Click Interval** `int` - Controls how many frames to wait between simulated clicks. The lower the value, the faster. `default = 8` `min = 1, max = 20`
 - **True Scroll** `bool` - Simulate true scrolling instead of an autoclicker. Experimental feature and may or may not be accurate. `default = false`
-- **Player 1 .. 2** `bool` - Whether this mod works for the chosen player when dual mode is activated. `default = true`
+- **Player 1 & 2** `bool` - Whether this mod works for the chosen player when dual mode is activated. `default = true`
+- **Key for Player 1 & 2** - Mapped keybind for Player 1 and 2. Make sure to customize this in the settings if needed. `P1 default = "SPACE"` `P2 default = "UP"`
 
 ## Incompatible Mods
 
@@ -21,6 +22,6 @@ This mod was created for the intention of beating hard spam levels. While it may
 
 ## Credits
 
-- Idea made by HexCodesGMD
+- Idea made by [HexCodesGMD](https://discord.com/users/1222327935315218506)
 - Developed by [SILVERSTAR](https://github.com/silver984) -> [Ko-fi](https://ko-fi.com/silverstar_)
-- Built using the [Geode SDK](https://geode-sdk.org/)
+- Built using the [Geode SDK](https://geode-sdk.org/) v4.4.0

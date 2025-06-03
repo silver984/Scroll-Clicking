@@ -1,3 +1,4 @@
+#include <string>
 #include "data.hpp"
 
 bool isConflicted = false;
@@ -15,3 +16,5 @@ int frames = 0;
 
 bool p1 = true;
 bool p2 = true;
+std::string keyStrP1 = "";
+std::string keyStrP2 = "";

@@ -15,3 +15,5 @@ extern int frames;
 
 extern bool p1;
 extern bool p2;
+extern std::string keyStrP1;
+extern std::string keyStrP2;
