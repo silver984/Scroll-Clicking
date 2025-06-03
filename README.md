@@ -1,6 +1,6 @@
-# ScrollClicking
+# Scroll Clicking
 
-This mod allows you to scroll click using your mouse's scroll wheel
+This mod allows you to scroll click using your mouse's scroll wheel.
 
 > This mod currently only supports **Windows**.
 
