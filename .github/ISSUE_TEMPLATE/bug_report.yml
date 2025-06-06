@@ -1,0 +1,61 @@
+name: Bug Report
+description: Report a bug.
+title: "[BUG]: "
+labels: [bug]
+body:
+  - type: input
+    id: version
+    attributes:
+      label: Version
+      placeholder: e.g v1.0.0
+    validations:
+      required: true
+
+  - type: dropdown
+    id: frequentness
+    attributes:
+      label: How frequent is this bug?
+      options:
+        - All the time
+        - Common
+        - Uncommon
+        - Rare
+    validations:
+      required: true
+
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened?
+      placeholder: Describe the bug you encountered.
+    validations:
+      required: true
+
+  - type: textarea
+    id: repro
+    attributes:
+      label: Steps to reproduce
+      placeholder: Do this... then that... then this... then bug happens
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: tried
+    attributes:
+      label: Things you have tried
+      options:
+        - label: Restarted the game
+        - label: Disabled other mods
+        - label: Updated to the latest version
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: Console logs
+      description: |
+        Please paste logs from Geode:
+        `path-to-your-gd/geode/logs/your-latest-geode-txt-document.txt`
+      placeholder: Paste logs here
+      render: shell
+    validations:
+      required: true
