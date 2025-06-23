@@ -1,7 +1,7 @@
 # Scroll Clicking
 
 ## 2.0.0
-- Cross platform supported now
+- Cross platform supported now. Except for iOS as the required bindings for it is missing (idk either, geode devs fix this i think)
 - New logo
 - Removed Incompatibility with CBF and CAF
 - Added Hold Interval and Release Interval
