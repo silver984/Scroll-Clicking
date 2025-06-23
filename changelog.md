@@ -3,6 +3,7 @@
 ## 2.0.0
 - Cross platform supported now
 - New logo
+- Removed Incompatibility with CBF and CAF
 - Added Hold Interval and Release Interval
 - Removed True Scroll and replaced with Directional Mode
 - Revamped scroll mechanism
