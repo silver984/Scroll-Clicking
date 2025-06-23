@@ -1,5 +1,12 @@
 # Scroll Clicking
 
+## 2.0.0
+- Cross platform supported now
+- New logo
+- Added Hold Interval and Release Interval
+- Removed True Scroll and replaced with Directional Mode
+- Revamped scroll mechanism
+
 ## 1.0.0
 - Initial release
 

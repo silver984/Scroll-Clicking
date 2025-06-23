@@ -1,11 +1,11 @@
 {
-	"geode": "4.4.0",
+	"geode": "4.6.1",
 	"gd": {
 		"win": "2.2074"
 	},
 	"id": "silverstar.scroll_clicking",
 	"name": "Scroll Clicking",
-	"version": "v1.0.0",
+	"version": "v2.0.0",
 	"developers": [
 		"SILVERSTAR",
 		"HexCodesGMD"
@@ -16,10 +16,11 @@
 	},
 	"tags": [
 		"offline",
-		"gameplay"
+		"gameplay",
+		"cheat"
 	],
 	"settings": {
-		"switch": {
+		"toggle": {
 			"name": "Turn Scroll Clicking ON",
 			"type": "bool",
 			"default": true
@@ -28,9 +29,21 @@
 			"type": "title",
 			"name": "Scroll Settings"
 		},
-		"clickInterval": {
+		"hold-interval": {
 			"type": "int",
-			"name": "Interval",
+			"name": "Hold Interval",
+			"default": 12,
+			"min": 1,
+			"max": 20,
+			"control": {
+				"slider": false,
+				"arrows": false
+			},
+			"enable-if": "toggle"
+		},
+		"release-interval": {
+			"type": "int",
+			"name": "Release Interval",
 			"default": 8,
 			"min": 1,
 			"max": 20,
@@ -38,14 +51,14 @@
 				"slider": false,
 				"arrows": false
 			},
-			"enable-if": "switch"
+			"enable-if": "toggle"
 		},
-		"istrue": {
-			"name": "True Scroll",
+		"directional-mode": {
+			"name": "Directional Mode",
 			"type": "bool",
-			"default": false,
-			"description": "Experimental. May or may not be accurate.",
-			"enable-if": "switch"
+			"default": true,
+			"description": "Hold Interval and Release Interval gets switched if you scroll down.",
+			"enable-if": "toggle"
 		},
 		"title2": {
 			"type": "title",
@@ -55,7 +68,7 @@
 			"name": "Player 1",
 			"type": "bool",
 			"description": "Scroll click for player 1.",
-			"enable-if": "switch",
+			"enable-if": "toggle",
 			"default": true
 		},
 		"key-p1": {
@@ -97,13 +110,13 @@
 				"ENTER"
 			],
 			"description": "Mapped key for Player 1.",
-			"enable-if": "switch && p1"
+			"enable-if": "toggle && p1"
 		},
 		"p2": {
 			"name": "Player 2",
 			"type": "bool",
 			"description": "Scroll click for player 2.",
-			"enable-if": "switch",
+			"enable-if": "toggle",
 			"default": true
 		},
 		"key-p2": {
@@ -145,7 +158,7 @@
 				"ENTER"
 			],
 			"description": "Mapped key for Player 2.",
-			"enable-if": "switch && p2"
+			"enable-if": "toggle && p2"
 		}
 	}
 }

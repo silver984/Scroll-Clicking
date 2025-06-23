@@ -1,12 +1,18 @@
 #include <Geode/Geode.hpp>
-#include "listener.hpp"
 #include "functions.hpp"
-#include "../data.hpp"
+#include "data.hpp"
+#include "util.hpp"
 #include <unordered_map>
 #include <string>
 #include <mutex>
 
 using namespace geode::prelude;
+
+bool hasClickedOnce;
+bool isGateOpen;
+bool isHolding;
+int stateFrames;
+int frames;
 
 void press(bool clickVal) {
     static std::unordered_map<std::string, enumKeyCodes> keyMap = {
@@ -54,55 +60,44 @@ void press(bool clickVal) {
         CCKeyboardDispatcher::get()->dispatchKeyboardMSG(keyP2->second, clickVal, false);
 }
 
-void constantScroll() {
-    if (g_mouseScrolled) {
-        g_mouseScrolled = false;
-        isGateOpen = true;
-        frames = 0;
-    }
-
-    intervalFrames++;
-    frames++;
-
-    if (isGateOpen) {
-        if (frames <= interval * 2) {
-            if (intervalFrames >= interval) {
-                isClicking = !isClicking;
-                intervalFrames = 0;
-            }
-            press(isClicking);
-        }
-        else {
-            press(false);
-            isGateOpen = false;
-        }
-    }
+void onScroll() {
+    isGateOpen = true;
+    isHolding = true;
+    hasClickedOnce = false;
+    stateFrames = 0;
+    press(true);
+    scrolled = false;
 }
 
-void trueScroll() {
-    if (g_mouseScrolled) {
-        g_mouseScrolled = false;
-        frames = 0;
-        scrollPasses++;
-        isGateOpen = true;
-    }
+void resetState() {
+    isGateOpen = false;
+    isHolding = false;
+    hasClickedOnce = false;
+    stateFrames = 0;
+    frames = 0;
+}
 
-    frames++;
+void scrollFn() {
+    if (scrolled)
+        onScroll();
 
     if (isGateOpen) {
-        if (frames < interval && scrollPasses % 2 == 0) {
-            scrollPasses = 0;
-            press(false);
-            isGateOpen = false;
-            return;
-        }
-        else {
-            press(true);
-        }
+        stateFrames++;
 
-        if (frames >= interval) {
+        if (isHolding && stateFrames >= holdInterval) {
             press(false);
-            isGateOpen = false;
+            isHolding = false;
+            stateFrames = 0;
+        }
+        else if (!isHolding && stateFrames >= releaseInterval) {
+            if (hasClickedOnce)
+                isGateOpen = false;
+            else {
+                press(true);
+                isHolding = true;
+                stateFrames = 0;
+                hasClickedOnce = true;
+            }
         }
     }
 }
