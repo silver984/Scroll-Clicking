@@ -1,86 +1,67 @@
 #include <Geode/Geode.hpp>
 #include <Geode/modify/CCMouseDispatcher.hpp>
 #include <Geode/modify/GJBaseGameLayer.hpp>
-#include <Geode/modify/CCScheduler.hpp>
-#include <Geode/modify/PlayLayer.hpp>
-#include "functions.hpp"
-#include "data.hpp"
-#include "util.hpp"
+#include "ScrollClickHandler.hpp"
 
 using namespace geode::prelude;
-
-bool isInLevel = false;
-bool scrolledUp = false;
 
 class $modify(CCMouseDispatcher) {
     bool dispatchScrollMSG(float x, float y) {
         if (!CCMouseDispatcher::dispatchScrollMSG(x, y))
             return false;
 
-        RETURN_IF_MOD_DISABLED(true);
+        auto& handler = ScrollClickHandler::get();
+        if (!GJBaseGameLayer::get() || !handler.toggle)
+            return true;
 
-        if (x < 0)
-            scrolledUp = true;
-        else if (x > 0)
-            scrolledUp = false;
-
-        if (isInLevel)
-            scrolled = true;
+        handler.scrolledUp = (x < 0);
+        handler.scrolled = true;
 
         return true;
     }
 };
 
-class $modify(PlayLayer) {
-    void startGame() {
-        RETURN_IF_MOD_DISABLED(PlayLayer::startGame());
-
-        isInLevel = true;
-        resetState();
-
-        PlayLayer::startGame();
-    }
-
-    void onQuit() {
-        RETURN_IF_MOD_DISABLED(PlayLayer::onQuit());
-
-        isInLevel = false;
-
-        PlayLayer::onQuit();
-    }
-};
-
 class $modify(GJBaseGameLayer) {
-    void processCommands(float p0) {
-        RETURN_IF_MOD_DISABLED(GJBaseGameLayer::processCommands(p0));
+    bool init() override {
+        if (!GJBaseGameLayer::init())
+            return false;
 
+        if (ScrollClickHandler::get().toggle)
+            ScrollClickHandler::get().resetState();
+
+        return true;
+    }
+
+    void processCommands(float p0) {
         GJBaseGameLayer::processCommands(p0);
 
-        scrollFn();
+        auto& handler = ScrollClickHandler::get();
+        if (handler.toggle)
+            handler.scrollFn();
     }
 };
 
-class $modify(CCScheduler) {
-    void update(float dt) {
-        toggle = setting<bool>("toggle");
 
-        RETURN_IF_MOD_DISABLED(CCScheduler::update(dt));
+$execute {
+    auto& handler = ScrollClickHandler::get();
 
-        bool directionalMode = setting<bool>("directional-mode");
-        if (directionalMode) {
-            holdInterval = scrolledUp ? setting<int>("hold-interval") : setting<int>("release-interval");
-            releaseInterval = scrolledUp ? setting<int>("release-interval") : setting<int>("hold-interval");
-        }
-        else {
-            holdInterval = setting<int>("hold-interval");
-            releaseInterval = setting<int>("release-interval");
-        }
-        
-        p1 = setting<bool>("p1");
-        p2 = setting<bool>("p2");
-        keyStrP1 = setting<std::string>("key-p1");
-        keyStrP2 = setting<std::string>("key-p2");
-
-        CCScheduler::update(dt);
-    }
-};
+    listenForSettingChangesV3<bool>("toggle", [&](bool v) {
+        handler.toggle = v;
+    });
+    listenForSettingChangesV3<bool>("p1", [&](bool v) {
+        handler.p1 = v;
+    });
+    listenForSettingChangesV3<bool>("p2", [&](bool v) {
+        handler.p2 = v;
+    });
+    listenForSettingChangesV3<std::string>("key-p1", [&](std::string v) {
+        handler.keyStrP1 = std::move(v);
+    });
+    listenForSettingChangesV3<std::string>("key-p2", [&](std::string v) {
+        handler.keyStrP2 = std::move(v);
+    });
+    listenForSettingChangesV3<bool>("directional-mode", [&](bool v) {
+        handler.setupDirectionalMode(v);
+    });
+    handler.setupDirectionalMode(true);
+}

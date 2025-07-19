@@ -10,9 +10,11 @@ set(CMAKE_CXX_VISIBILITY_PRESET hidden)
 
 project(ScrollClicking VERSION 1.0.0)
 
-file(GLOB_RECURSE SOURCES CONFIGURE_DEPENDS src/*.cpp)
+file(GLOB_RECURSE SOURCES
+	src/*.cpp
+)
 
-add_library(${PROJECT_NAME} SHARED ${SOURCES}  "src/functions.cpp"  "src/data.cpp"  "src/util.cpp")
+add_library(${PROJECT_NAME} SHARED ${SOURCES})
 
 if (NOT DEFINED ENV{GEODE_SDK})
     message(FATAL_ERROR "Unable to find Geode SDK! Please define GEODE_SDK environment variable to point to Geode")

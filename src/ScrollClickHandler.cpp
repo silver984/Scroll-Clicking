@@ -1,20 +1,11 @@
-#include <Geode/Geode.hpp>
-#include "functions.hpp"
-#include "data.hpp"
-#include "util.hpp"
-#include <unordered_map>
-#include <string>
-#include <mutex>
+#include "ScrollClickHandler.hpp"
 
-using namespace geode::prelude;
+ScrollClickHandler& ScrollClickHandler::get() {
+    static ScrollClickHandler instance;
+    return instance;
+}
 
-bool hasClickedOnce;
-bool isGateOpen;
-bool isHolding;
-int stateFrames;
-int frames;
-
-void press(bool clickVal) {
+void ScrollClickHandler::press(bool clickVal) {
     static std::unordered_map<std::string, enumKeyCodes> keyMap = {
         { "A", enumKeyCodes::KEY_A },
         { "B", enumKeyCodes::KEY_B },
@@ -50,17 +41,17 @@ void press(bool clickVal) {
         { "ENTER", enumKeyCodes::KEY_Enter }
     };
 
-    auto keyP1 = keyMap.find(keyStrP1);
-    auto keyP2 = keyMap.find(keyStrP2);
-
-    if (p1)
+    if (p1) {
+        auto keyP1 = keyMap.find(keyStrP1);
         CCKeyboardDispatcher::get()->dispatchKeyboardMSG(keyP1->second, clickVal, false);
-
-    if (p2)
+    }
+    if (p2) {
+        auto keyP2 = keyMap.find(keyStrP2);
         CCKeyboardDispatcher::get()->dispatchKeyboardMSG(keyP2->second, clickVal, false);
+    }
 }
 
-void onScroll() {
+void ScrollClickHandler::onScroll() {
     isGateOpen = true;
     isHolding = true;
     hasClickedOnce = false;
@@ -69,7 +60,7 @@ void onScroll() {
     scrolled = false;
 }
 
-void resetState() {
+void ScrollClickHandler::resetState() {
     isGateOpen = false;
     isHolding = false;
     hasClickedOnce = false;
@@ -77,27 +68,41 @@ void resetState() {
     frames = 0;
 }
 
-void scrollFn() {
-    if (scrolled)
-        onScroll();
+void ScrollClickHandler::setupDirectionalMode(bool mode) {
+    int hold = Mod::get()->getSettingValue<int>("hold-interval");
+    int release = Mod::get()->getSettingValue<int>("release-interval");
 
-    if (isGateOpen) {
-        stateFrames++;
+    if (mode) {
+        holdInterval = scrolledUp ? hold : release;
+        releaseInterval = scrolledUp ? release : hold;
+    } else {
+        holdInterval = hold;
+        releaseInterval = release;
+    }
+}
 
-        if (isHolding && stateFrames >= holdInterval) {
-            press(false);
-            isHolding = false;
+void ScrollClickHandler::scrollFn() {
+    if (scrolled) onScroll();
+    if (!isGateOpen) return;
+
+    stateFrames++;
+
+    const bool heldLongEnough = isHolding && stateFrames >= holdInterval;
+    const bool releasedLongEnough = !isHolding && stateFrames >= releaseInterval;
+
+    if (heldLongEnough) {
+        press(false);
+        isHolding = false;
+        stateFrames = 0;
+    }
+    else if (releasedLongEnough) {
+        if (hasClickedOnce) {
+            isGateOpen = false;
+        } else {
+            press(true);
+            isHolding = true;
+            hasClickedOnce = true;
             stateFrames = 0;
-        }
-        else if (!isHolding && stateFrames >= releaseInterval) {
-            if (hasClickedOnce)
-                isGateOpen = false;
-            else {
-                press(true);
-                isHolding = true;
-                stateFrames = 0;
-                hasClickedOnce = true;
-            }
         }
     }
 }
