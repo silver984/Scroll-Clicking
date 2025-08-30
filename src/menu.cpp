@@ -33,10 +33,12 @@ public:
         setTouchEnabled(true);
         setKeyboardEnabled(true);
 
+#ifdef GEODE_IS_WINDOWS
         if (auto glView = CCDirector::sharedDirector()->getOpenGLView()) {
             glView->toggleLockCursor(false);
             glView->showCursor(true);
         }
+#endif
 
         auto winSize = CCDirector::sharedDirector()->getWinSize();
         auto center = CCPoint(winSize / 2);
