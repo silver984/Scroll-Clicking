@@ -1,18 +1,33 @@
 {
-	"geode": "4.6.1",
+	"geode": "4.8.0",
 	"gd": {
 		"win": "2.2074",
-		"android": "2.2074",
 		"mac": "2.2074"
 	},
 	"id": "silverstar.scroll_clicking",
 	"name": "Scroll Clicking",
-	"version": "v2.0.0",
+	"version": "v2.1.0",
 	"developers": [
 		"SILVERSTAR",
 		"HexCodesGMD"
 	],
 	"description": "",
+	"incompatibilities": {
+		"syzzi.click_between_frames": {
+			"importance": "breaking",
+			"version": ">=1.0.0"
+		},
+		"prevter.smooth-scroll": {
+			"importance": "breaking",
+			"version": ">=1.0.0"
+		}
+	},
+	"dependencies": {
+		"geode.custom-keybinds": {
+			"version": ">=v1.10.4",
+			"importance": "required"
+		}
+	},
 	"links": {
 		"source": "https://github.com/silver984/Scroll-Clicking"
 	},
@@ -27,25 +42,13 @@
 			"type": "bool",
 			"default": true
 		},
-		"title1": {
+		"interval-settings": {
 			"type": "title",
-			"name": "Scroll Settings"
+			"name": "Interval Setting(s)"
 		},
 		"hold-interval": {
 			"type": "int",
-			"name": "Hold Interval",
-			"default": 12,
-			"min": 1,
-			"max": 20,
-			"control": {
-				"slider": false,
-				"arrows": false
-			},
-			"enable-if": "toggle"
-		},
-		"release-interval": {
-			"type": "int",
-			"name": "Release Interval",
+			"name": "Hold interval",
 			"default": 8,
 			"min": 1,
 			"max": 20,
@@ -53,114 +56,86 @@
 				"slider": false,
 				"arrows": false
 			},
+			"description": "How many frames to hold/n<cr>Based on frames, and so cannot be in decimals</c>",
 			"enable-if": "toggle"
+		},
+		"release-interval": {
+			"type": "int",
+			"name": "Release interval",
+			"default": 8,
+			"min": 1,
+			"max": 20,
+			"control": {
+				"slider": false,
+				"arrows": false
+			},
+			"description": "How many frames to release/n<cr>Based on frames, and so cannot be in decimals</c>",
+			"enable-if": "toggle && stable-scroll"
+		},
+		"modes": {
+			"type": "title",
+			"name": "Mode(s)"
 		},
 		"directional-mode": {
 			"name": "Directional Mode",
 			"type": "bool",
 			"default": true,
-			"description": "Hold Interval and Release Interval gets switched if you scroll down.",
+			"description": "Hold and release intervals get switched if you scroll down",
 			"enable-if": "toggle"
 		},
-		"title2": {
+		"inverted-directional-mode": {
+			"name": "Invert Directional Mode",
+			"type": "bool",
+			"default": false,
+			"enable-if": "toggle && directional-mode"
+		},
+		"velocity-mode": {
+			"name": "Velocity Mode",
+			"type": "bool",
+			"default": true,
+			"description": "Hold and release intervals shrink the faster you scroll",
+			"enable-if": "toggle"
+		},
+		"max-velocity": {
+			"type": "int",
+			"name": "Max velocity",
+			"default": 8,
+			"min": 5,
+			"max": 30,
+			"control": {
+				"slider": false,
+				"arrows": false
+			},
+			"enable-if": "toggle && velocity-mode"
+		},
+		"scroll-types": {
 			"type": "title",
-			"name": "Dual Settings"
+			"name": "Scroll Type(s)"
+		},
+		"stable-scroll": {
+			"name": "Stable Scroll",
+			"type": "bool",
+			"default": true,
+			"description": "Clicking mechanism is constant",
+			"enable-if": "toggle"
+		},
+		"dual-settings": {
+			"type": "title",
+			"name": "Dual Setting(s)"
 		},
 		"p1": {
 			"name": "Player 1",
 			"type": "bool",
-			"description": "Scroll click for player 1.",
+			"description": "Scroll Click For Player 1",
 			"enable-if": "toggle",
 			"default": true
-		},
-		"key-p1": {
-			"type": "string",
-			"name": "Key for Player 1",
-			"default": "SPACE",
-			"one-of": [
-				"A",
-				"B",
-				"C",
-				"D",
-				"E",
-				"F",
-				"G",
-				"H",
-				"I",
-				"J",
-				"K",
-				"L",
-				"M",
-				"N",
-				"O",
-				"P",
-				"Q",
-				"R",
-				"S",
-				"T",
-				"U",
-				"V",
-				"W",
-				"X",
-				"Y",
-				"Z",
-				"UP",
-				"DOWN",
-				"LEFT",
-				"RIGHT",
-				"SPACE",
-				"ENTER"
-			],
-			"description": "Mapped key for Player 1.",
-			"enable-if": "toggle && p1"
 		},
 		"p2": {
 			"name": "Player 2",
 			"type": "bool",
-			"description": "Scroll click for player 2.",
+			"description": "Scroll Click For Player 2",
 			"enable-if": "toggle",
 			"default": true
-		},
-		"key-p2": {
-			"type": "string",
-			"name": "Key for Player 2",
-			"default": "UP",
-			"one-of": [
-				"A",
-				"B",
-				"C",
-				"D",
-				"E",
-				"F",
-				"G",
-				"H",
-				"I",
-				"J",
-				"K",
-				"L",
-				"M",
-				"N",
-				"O",
-				"P",
-				"Q",
-				"R",
-				"S",
-				"T",
-				"U",
-				"V",
-				"W",
-				"X",
-				"Y",
-				"Z",
-				"UP",
-				"DOWN",
-				"LEFT",
-				"RIGHT",
-				"SPACE",
-				"ENTER"
-			],
-			"description": "Mapped key for Player 2.",
-			"enable-if": "toggle && p2"
 		}
 	}
 }

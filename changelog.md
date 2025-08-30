@@ -1,5 +1,12 @@
 # Scroll Clicking
 
+## 2.1.0
+- Added Custom Keybind dependency
+- Added Velocity Mode
+- Added Stable Scroll
+- New custom menu
+- Removed mobile support
+
 ## 2.0.0
 - Cross platform supported now. Except for iOS as the required bindings for it is missing (idk either, geode devs fix this i think)
 - New logo

@@ -1,67 +1,110 @@
 #include <Geode/Geode.hpp>
-#include <Geode/modify/CCMouseDispatcher.hpp>
 #include <Geode/modify/GJBaseGameLayer.hpp>
-#include "ScrollClickHandler.hpp"
+#include "globals.hpp"
+#include <cmath>
 
 using namespace geode::prelude;
 
-class $modify(CCMouseDispatcher) {
-    bool dispatchScrollMSG(float x, float y) {
-        if (!CCMouseDispatcher::dispatchScrollMSG(x, y))
-            return false;
+struct State {
+    bool isGateOpen = false;
+    bool isHolding = true;
 
-        auto& handler = ScrollClickHandler::get();
-        if (!GJBaseGameLayer::get() || !handler.toggle)
-            return true;
+    int phaseFrames = 0;
+    int elapsedFrames = 0;
 
-        handler.scrolledUp = (x < 0);
-        handler.scrolled = true;
+    void onScroll() {
+        isGateOpen = true;
+        elapsedFrames = 0;
 
-        return true;
+        if (globals.scrollState.velocity < globals.settings.maxVelocity)
+            globals.scrollState.velocity++;
+    }
+
+    void reset() {
+        *this = State();
     }
 };
+State state;
 
 class $modify(GJBaseGameLayer) {
     bool init() override {
-        if (!GJBaseGameLayer::init())
-            return false;
+        if (!GJBaseGameLayer::init()) return false;
+        if (!globals.settings.isModEnabled) return true;
 
-        if (ScrollClickHandler::get().toggle)
-            ScrollClickHandler::get().resetState();
+        state.reset();
+        globals.scrollState.velocity = 0.f;
 
         return true;
     }
 
     void processCommands(float p0) {
-        GJBaseGameLayer::processCommands(p0);
+        if (!globals.settings.isModEnabled) return GJBaseGameLayer::processCommands(p0);
+        GJBaseGameLayer::processCommands(p0); // everything does NOT work unless you call early for some reason
 
-        auto& handler = ScrollClickHandler::get();
-        if (handler.toggle)
-            handler.scrollFn();
+        static auto& scroll = globals.scrollState;
+        static auto& settings = globals.settings;
+
+        if (scroll.velocity >= 0.5f)
+            scroll.velocity *= std::pow(0.01f, p0);
+        else scroll.velocity = 0.f;
+
+        static float velocityDiff;
+        static float velocityQuotient;
+        velocityDiff = settings.maxVelocity - scroll.velocity;
+        velocityQuotient = velocityDiff / settings.maxVelocity;
+
+        static int hold;
+        static int release;
+        static int interval;
+        static int sum;
+
+        if (settings.isVelocityMode) {
+            hold = (int)(globals.settings.holdInterval * velocityQuotient);
+            if (hold == 0) hold = 1;
+
+            release = (int)(globals.settings.releaseInterval * velocityQuotient);
+            if (release == 0) release = 1;
+        }
+        else {
+            hold = globals.settings.holdInterval;
+            release = globals.settings.releaseInterval;
+        }
+
+        if (state.isHolding) interval = hold;
+        else interval = release;
+
+        sum = hold + release;
+
+        if (scroll.scrolled) {
+            state.onScroll();
+            scroll.scrolled = false;
+        }
+
+        state.phaseFrames++;
+        if (settings.isStableScroll) state.elapsedFrames++;
+
+        if (!state.isGateOpen) return GJBaseGameLayer::processCommands(p0);
+
+        if (settings.isStableScroll) {
+            if (state.elapsedFrames <= sum) {
+                if (state.phaseFrames >= interval) {
+                    state.isHolding = !state.isHolding;
+                    state.phaseFrames = 0;
+                }
+                globals.press(state.isHolding);
+            }
+            else {
+                globals.press(false);
+                state.isGateOpen = false;
+            }
+            return;
+        }
+
+        if (state.phaseFrames < hold) globals.press(true);
+        else if (state.phaseFrames >= hold) {
+            globals.press(false);
+            state.phaseFrames = 0;
+            state.isGateOpen = false;
+        }
     }
 };
-
-
-$execute {
-    auto& handler = ScrollClickHandler::get();
-
-    listenForSettingChangesV3<bool>("toggle", [&](bool v) {
-        handler.toggle = v;
-    });
-    listenForSettingChangesV3<bool>("p1", [&](bool v) {
-        handler.p1 = v;
-    });
-    listenForSettingChangesV3<bool>("p2", [&](bool v) {
-        handler.p2 = v;
-    });
-    listenForSettingChangesV3<std::string>("key-p1", [&](std::string v) {
-        handler.keyStrP1 = std::move(v);
-    });
-    listenForSettingChangesV3<std::string>("key-p2", [&](std::string v) {
-        handler.keyStrP2 = std::move(v);
-    });
-    listenForSettingChangesV3<bool>("directional-mode", [&](bool v) {
-        handler.setupDirectionalMode(v);
-    });
-    handler.setupDirectionalMode(true);
-}
