@@ -1,5 +1,8 @@
 # Scroll Clicking
 
+## 2.1.1
+- Works in the editor now
+
 ## 2.1.0
 - Added Custom Keybind dependency
 - Added Velocity Mode

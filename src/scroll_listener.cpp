@@ -1,5 +1,6 @@
 #include <Geode/modify/CCMouseDispatcher.hpp>
 #include <Geode/modify/PlayLayer.hpp>
+#include <Geode/modify/LevelEditorLayer.hpp>
 #include "globals.hpp"
 
 using namespace geode::prelude;
@@ -32,6 +33,23 @@ class $modify(PlayLayer) {
     void resume() {
         canScroll = true;
         PlayLayer::resume();
+    }
+};
+
+class $modify(LevelEditorLayer) {
+    void onPlaytest() {
+        canScroll = true;
+        LevelEditorLayer::onPlaytest();
+    }
+
+    void onResumePlaytest() {
+        canScroll = true;
+        LevelEditorLayer::onResumePlaytest();
+    }
+
+    void onStopPlaytest() {
+        canScroll = false;
+        LevelEditorLayer::onStopPlaytest();
     }
 };
 

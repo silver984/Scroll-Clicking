@@ -18,7 +18,7 @@ _This mod heavily relies on frame timings and does not guarantee complete and ac
 - Custom Keybind `geode.custom-keybinds`
 
 ### Incompatible Mod(s)
-- **Click Between Frames** `syzzi.click_between_frames`
+- Click Between Frames `syzzi.click_between_frames`
 - Smooth Scroll `prevter.smooth-scroll`
 
 ## Credits

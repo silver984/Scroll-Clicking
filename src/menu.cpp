@@ -55,7 +55,7 @@ public:
         // Menu title
         auto title = CCLabelBMFont::create("Scroll Clicking Menu", "bigFont.fnt");
         title->setScale(0.475f);
-        title->setPosition({ center.x, bg->getPositionY() + (bg->getContentSize().height / 2) });
+        title->setPosition({ center.x, bg->getPositionY() + (bg->getContentSize().height / 2) + 20 });
         this->addChild(title);
 
         auto menu = CCMenu::create();
